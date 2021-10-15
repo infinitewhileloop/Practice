@@ -1,0 +1,19 @@
+#!/bin/bash
+
+address=$1
+street_length=$2
+
+min=1
+max=$(( street_length * 2 ))
+
+if [[ $(( "$address" % 2 )) -eq 1 ]]; then
+    diff=$(( address - min ))
+    result=$(( max - diff ))
+else
+    diff=$(( max - address ))
+    result=$(( min + diff ))
+fi
+
+echo "$result"
+
+# https://www.codewars.com/kata/5f0ed36164f2bc00283aed07/
