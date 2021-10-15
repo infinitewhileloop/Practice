@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ "$1" =~ 00$ ]]; then
+    output=$(($1 / 100))
+else
+    output=$(($1 / 100 + 1))
+fi
+
+echo "$output"
+
+# https://www.codewars.com/kata/5a3fe3dde1ce0e8ed6000097
