@@ -1,0 +1,28 @@
+#!/bin/bash
+dad_ageA=$1
+son_ageA=$2
+countA=0
+while [[ son_ageA -gt 0 ]]; do
+    if (( son_ageA * 2 == dad_ageA )); then
+        echo "$countA"
+        exit
+    fi
+    son_ageA=$((son_ageA - 1))
+    dad_ageA=$((dad_ageA -1))
+    countA=$((countA + 1))
+done
+
+dad_ageB=$1
+son_ageB=$2
+countB=0
+while [[ dad_ageB -lt 150 ]]; do
+    if (( son_ageB * 2 == dad_ageB )); then
+        echo "$countB"
+        exit
+    fi
+    dad_ageB=$((dad_ageB + 1))
+    son_ageB=$((son_ageB + 1))
+    countB=$((countB + 1))
+done
+
+# https://www.codewars.com/kata/5b853229cfde412a470000d0
