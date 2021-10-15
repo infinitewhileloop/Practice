@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ord() {
+  LC_CTYPE=C printf '%d' "'$1"
+}
+
+chr() {
+  [ "$1" -lt 256 ] || return 1
+  printf "\\$(printf '%03o' "$1")"
+}
+
+str=$1
+sum=0
+
+if [[ -z "$str" || "$str" == 'z' ]]; then
+    echo 'z'
+    exit
+fi
+
+for (( i = 0; i < ${#str}; i++ )); do
+    char=${str:i:1}
+    sum=$(( sum - 96 + $(ord "$char") ))
+done
+
+wo_overflow=$(( sum % 26 ))
+result=$( chr $((96 + wo_overflow)) )
+
+if [[ "$result" == '`' ]]; then
+    echo "z"
+    exit
+fi
+
+echo "$result"
+
+# https://www.codewars.com/kata/5d50e3914861a500121e1958/
