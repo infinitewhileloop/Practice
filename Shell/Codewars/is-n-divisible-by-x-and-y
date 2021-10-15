@@ -1,0 +1,16 @@
+#!/bin/bash
+
+n=$1
+x=$2
+y=$3
+
+remainder1=$((n % x))
+remainder2=$((n % y))
+
+if [[ "$remainder1" == 0 && "$remainder2" == 0 ]]; then
+    echo "true"
+else
+    echo "false"
+fi
+
+# https://www.codewars.com/kata/5545f109004975ea66000086/
