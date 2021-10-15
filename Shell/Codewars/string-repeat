@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function repeat_str() {
+    num=$1
+    str=$2
+    result=
+    count=0
+
+    while [[ "$count" < "$num" ]]; do
+        result="$result$str"
+        count=$((count + 1))
+    done
+
+    echo "$result"
+}
+
+repeat_str $1 $2
+
+# https://www.codewars.com/kata/57a0e5c372292dd76d000d7e/
