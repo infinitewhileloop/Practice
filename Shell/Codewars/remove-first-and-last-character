@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function remove_char() {
+    str=${1/#?/}
+    str=${str/%?/}
+    echo "$str"
+}
+
+remove_char $1
+
+# https://www.codewars.com/kata/56bc28ad5bdaeb48760009b0/
