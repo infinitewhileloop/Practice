@@ -1,0 +1,16 @@
+#!/bin/bash
+
+filename=$1
+
+if [[ -z "$filename" ]]; then    # check if no arguments are supplied
+    echo "Nothing to find"
+    exit
+fi
+
+if [[ -f "$filename" ]]; then   # check if file exists
+    echo "Found $filename"
+else
+    echo "Can't find $filename"
+fi
+
+# https://www.codewars.com/kata/582d7d22081ed3342d0000a7/
