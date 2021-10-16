@@ -1,0 +1,25 @@
+#!/bin/bash
+
+dirname=$1
+
+if [[ "$#" -ne 1 ]]; then       # number of arguments not exactly once
+    echo "Nothing to find"
+    exit 1
+fi
+
+if [[ -d "$dirname" ]]; then    # argument is directory
+
+    if [[ $(echo "$dirname" | grep "^/" | wc -l) -eq 1 ]]; then # argument is full path
+        full_path="$dirname"
+    else
+        full_path="$PWD/$dirname"
+    fi
+
+    nums_files=$(ls -la $dirname | grep '^-' | wc -l)
+    echo "There are $nums_files files in $full_path"
+
+else
+    echo "Directory not found"
+fi
+
+# https://www.codewars.com/kata/584857c5a7878e993b0005cc/
