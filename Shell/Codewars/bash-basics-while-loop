@@ -1,0 +1,10 @@
+#!/bin/bash
+
+count=1
+
+until [[ "$count" -eq 21 ]]; do
+    echo "Count: $count"
+    count=$(( count + 1 ))
+done
+
+# https://www.codewars.com/kata/582cd9033c1acf1d45000052/
