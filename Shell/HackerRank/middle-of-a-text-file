@@ -1,0 +1,5 @@
+#!/bin/bash
+
+head -n 22 $1 | tail -n 11
+
+# https://www.hackerrank.com/challenges/text-processing-in-linux---the-middle-of-a-text-file/
