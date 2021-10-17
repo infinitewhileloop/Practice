@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for (( i = 0; i <= 99; i++ )); do
+    if [[ $(( i % 2 )) -eq 0 ]]; then
+        continue
+    fi
+    echo "$i"
+done
+
+# https://www.hackerrank.com/challenges/bash-tutorials---looping-and-skipping/
