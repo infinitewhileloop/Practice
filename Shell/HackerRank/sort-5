@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sort -t$'\t' -k2 -nr $1
+
+# https://www.hackerrank.com/challenges/text-processing-sort-5/
