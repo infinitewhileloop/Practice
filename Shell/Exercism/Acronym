@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Convert a phrase to its acronym.
+# Techies love their TLA (Three Letter Acronyms)!
+# Help generate some jargon by writing a program that converts a long name 
+# like Portable Network Graphics to its acronym (PNG).
+# E.g. run bash acronym.sh 'Portable Network Graphics'
+# https://exercism.org/tracks/bash/exercises/acronym/
+
+str="$1 "                          # adding one space to end of argument
+str=$(echo "$str" | tr '-' ' ')    # replace dashes by spaces
+str=$(echo "$str" | tr '_' ' ')    # replace underscores by spaces
+str=$(echo "$str" | tr '*' ' ')    # replace stars by spaces
+
+initials=
+
+while [[ "$str" =~ " " ]]; do          # as long as there is space in string
+    first_char="${str:0:1}"            # extract 1st character from beginning of string
+    initials="$initials$first_char"    # concatenate 1st chars from all words
+    str=${str#* }                      # remove 1st space and preceding word from string
+done
+
+initials=${initials^^}                      # convert all characters to uppercase
+initials=$(echo "$initials" | tr -d ' ')    # remove any remaining spaces
+
+echo "$initials"
