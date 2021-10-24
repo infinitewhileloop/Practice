@@ -10,7 +10,6 @@
 
 sentence="$1"
 lowercase="${sentence,,}"    # convert sentence to lowercase
-#echo "$lowercase"
 
 alpha_only=$( echo "$lowercase" | tr -c -d 'a-z')    
 # remove all non alphabetic characters 
