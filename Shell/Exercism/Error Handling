@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Implement various kinds of error handling and resource management.
+# https://exercism.org/tracks/bash/exercises/error-handling
+
+num_args=${#@}    # number of arguments
+
+if [[ "$num_args" -ne 1 ]]; then    # if number of arguments is not 1
+    echo "Usage: error_handling.sh <person>"
+    exit 1
+fi
+
+echo "Hello, $1"
