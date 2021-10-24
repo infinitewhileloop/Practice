@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Determine if a sentence is a pangram. A pangram 
+# (Greek: παν γράμμα, pan gramma, "every letter") is a sentence using every letter 
+# of the alphabet at least once. 
+# The best known English pangram is: The quick brown fox jumps over the lazy dog.
+# The alphabet used consists of ASCII letters a to z, inclusive,
+# and is case insensitive. Input will not contain non-ASCII symbols.
+# https://exercism.org/tracks/bash/exercises/pangram
+
+sentence="$1"
+lowercase="${sentence,,}"    # convert sentence to lowercase
+#echo "$lowercase"
+
+alpha_only=$( echo "$lowercase" | tr -c -d 'a-z')    
+# remove all non alphabetic characters 
+# -c switch to match complement of 1st argument (i.e. all characters not listed in 1st arg
+
+num_uniq_letters=$(echo "$alpha_only" | grep -o . | sort | uniq | wc -l)
+# -o switch to print every letter on separate output line
+# count number of unique lines
+
+if [[ "$num_uniq_letters" -eq 26 ]]; then
+    echo "true"
+else
+    echo "false"
+fi
