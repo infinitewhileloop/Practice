@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Reverse a string
+# For example: input: "cool" output: "looc"
+# https://exercism.org/tracks/bash/exercises/reverse-string
+
+input=$1
+reverse=
+
+for (( i = 0; i < ${#input}; i++ )); do
+    char=${input:i:1}
+    reverse="$char$reverse"
+done
+
+echo "$reverse"
