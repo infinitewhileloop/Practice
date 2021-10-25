@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Given a word, compute the Scrabble score for that word.
+# Letter                           Value
+# A, E, I, O, U, L, N, R, S, T       1
+# D, G                               2
+# B, C, M, P                         3
+# F, H, V, W, Y                      4
+# K                                  5
+# J, X                               8
+# Q, Z                               10
+# Examples "cabbage" should be scored as worth 14 points
+# https://exercism.org/tracks/bash/exercises/scrabble-score
+
+input="$1"
+input=${input^^}    # convert to uppercase
+
+sum=0
+
+for (( i = 0; i < ${#input}; i++ )); do    # loop over the word character by character
+
+    char="${input:i:1}"    # slice one character
+
+    case "$char" in
+        A|E|I|O|U|L|N|R|S|T) 
+            sum=$(( sum + 1 )) ;;
+        D|G)
+            sum=$(( sum + 2 )) ;;
+        B|C|M|P)
+            sum=$(( sum + 3 )) ;;
+        F|H|V|W|Y)
+            sum=$(( sum + 4 )) ;;
+        K)
+            sum=$(( sum + 5 )) ;;
+        J|X)
+            sum=$(( sum + 8 )) ;;
+        Q|Z)
+            sum=$(( sum + 10 )) ;;
+    esac
+
+done
+
+echo "$sum"
