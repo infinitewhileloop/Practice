@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Bob is a lackadaisical teenager. In conversation, his responses are very limited.
+# Bob answers 'Sure.' if you ask him a question, such as "How are you?".
+# He answers 'Whoa, chill out!' if you YELL AT HIM (in all capitals).
+# He answers 'Calm down, I know what I'm doing!' if you yell a question at him.
+# He says 'Fine. Be that way!' if you address him without actually saying anything.
+# He answers 'Whatever.' to anything else.
+# Bob's conversational partner is a purist when it comes to written communication 
+# and always follows normal rules regarding sentence punctuation in English.
+
+input="$1"
+
+is_all_caps() {    # test if input is entirely in capital letters
+    local uppercase=${input^^}    # convert input to uppercase
+    if [[ ! "$uppercase" =~ [A-Z]+ ]]; then     # if input contains no letters
+        all_caps=0
+    elif [[ "$input" == "$uppercase" ]]; then
+        all_caps=1
+    else
+        all_caps=0
+    fi
+}
+is_all_caps
+
+pattern_question='\?[[:space:]]*$'    # regex to test if input ends on question mark (possibly followed by whitespace)
+pattern_silence='^[[:space:]]+$'      # regex to test if input consists only of whitespace
+
+if [[ "$input" =~ $pattern_question && "$all_caps" -eq 1 ]]; then
+    echo "Calm down, I know what I'm doing!"
+elif [[ "$input" =~ $pattern_question ]]; then
+    echo "Sure."
+elif [[ "$all_caps" -eq 1 ]]; then
+    echo "Whoa, chill out!"
+elif [[ "${#input}" -eq 0 || "$input" =~ $pattern_silence ]]; then     # if there is no arguments or only whitespace
+    echo "Fine. Be that way!"
+else
+    echo "Whatever."
+fi
