@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# To get around this problem, manufacturers print color-coded bands onto the resistors to denote their resistance values. 
+# Each band has a position and a numeric value.
+# In this exercise you are going to create a helpful program so that you don't have to remember the values of the bands. 
+# The program will take color names as input and output a two digit number, even if the input is more than two colors!
+# From the example above: brown-green should return 15 
+# brown-green-violet should return 15 too, ignoring the third color.
+# https://exercism.org/tracks/bash/exercises/resistor-color-duo
+
+output=
+
+for (( i = 0; i <= 1; i++ )); do    # loop over the first 2 arguments
+
+    if [[ "$i" -eq 0 ]]; then       # determine if this is loop 0 or 1
+        color=$1
+    else
+        color=$2
+    fi
+
+    case "$color" in
+        black)  output="${output}0" ;;
+        brown)  output="${output}1" ;;
+        red)    output="${output}2" ;;
+        orange) output="${output}3" ;;
+        yellow) output="${output}4" ;;
+        green)  output="${output}5" ;;
+        blue)   output="${output}6" ;;
+        violet) output="${output}7" ;;
+        grey)   output="${output}8" ;;
+        white)  output="${output}9" ;;
+        *) echo "invalid color"; exit 1 ;;
+    esac
+
+done
+
+echo "$output"
