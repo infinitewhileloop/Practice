@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Implement a clock that handles times without dates.
+# You should be able to add and subtract minutes to it.
+# Two clocks that represent the same time should be equal to each other.
+# https://exercism.org/tracks/bash/exercises/clock/
+
+add_leading_zero() {
+    if [[ ${#1} -lt 2 ]]; then
+        echo "0$1"
+    else
+        echo "$1"
+    fi
+}
+
+input_hours=$1
+input_mins=$2
+operator=$3
+extra_mins=$4
+
+all_args="$@"    # all arguments as one string
+pattern_2args='^-?[0-9]+ -?[0-9]+$'    # regex to test if input is in valid format
+pattern_4args='^-?[0-9]+ -?[0-9]+ [+-] [0-9]+$'
+if [[ ! "$all_args" =~ $pattern_2args && ! "$all_args" =~ $pattern_4args ]]; then
+    echo "invalid arguments"
+    exit 1
+fi
+
+if [[ "$#" -eq 4 && "$operator" == '+' ]]; then    # 4 args, 3rd arg is '+'
+    total_mins=$(( (input_hours * 60 ) + input_mins + extra_mins ))
+elif [[ "$#" -eq 4 && "$operator" == '-' ]]; then  # 4 args, 3rd arg is '-'
+    total_mins=$(( (input_hours * 60 ) + input_mins - extra_mins ))
+else                                               # 2 args
+    total_mins=$(( (input_hours * 60 ) + input_mins ))
+fi
+
+if [[ "$total_mins" -ge 1440 ]]; then    # greater than/equal to full day ( 24 hours * 60 min)
+    total_mins=$(( total_mins % 1440 ))
+fi
+if [[ "$total_mins" -le -1440 ]]; then   # less than/equal to full 'negative' day
+    total_mins=$(( total_mins % 1440 ))
+fi
+
+if [[ "$total_mins" -ge 0 ]]; then       # if total minutes is positive integer
+    output_hours=$(( total_mins / 60 ))
+    output_mins=$(( total_mins % 60 ))
+else                                     # if total minutes is negative integer
+    total_mins=$(( total_mins * -1 ))    # make absolute
+    if (( total_mins % 60 == 0 )); then  # if there is no minutes remainder
+        output_hours=$(( 24 - (total_mins / 60) ))
+        output_mins=0
+    else
+        output_hours=$(( 23 - (total_mins / 60) ))
+        output_mins=$(( 60 - (total_mins % 60) ))
+    fi 
+fi
+
+output_hours=$( add_leading_zero "$output_hours" )
+output_mins=$( add_leading_zero "$output_mins" )
+
+echo "$output_hours:$output_mins"
