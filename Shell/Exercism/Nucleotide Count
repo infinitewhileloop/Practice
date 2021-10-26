@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Given a string representing a DNA sequence, count how many of each nucleotide is present. 
+# If the string contains characters that aren't A, C, G, or T then it is invalid and you should signal an error.
+# https://exercism.org/tracks/bash/exercises/nucleotide-count/
+
+dna_sequence=$1
+
+# Validate input
+regex='^[ACGT]*$'
+[[ ! "$dna_sequence" =~ $regex ]] && echo "Invalid nucleotide in strand" && exit 1
+
+# Create associative array for the four nucleotides
+declare -A nucleotides
+nucleotides=(
+    [A]=0
+    [C]=0
+    [G]=0
+    [T]=0
+)
+
+# Loop over each character in string (DNA sequence), add 1 to count
+for (( i = 0; i < ${#dna_sequence}; i++ )); do
+    char=${dna_sequence:i:1}
+    (( nucleotides["$char"] += 1 ))
+done
+
+# Output all nucleotides and their count to a string, to make sorting possible (associative arrays have no fixed order)
+for key in "${!nucleotides[@]}"; do
+    temp="$key: ${nucleotides["$key"]}"
+    output="$output$temp\n"
+done
+output=${output%\\*}    # remove trailing \n
+
+echo -e "$output" | sort
