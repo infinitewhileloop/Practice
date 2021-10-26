@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Given an age in seconds, calculate how old someone would be on:
+# Mercury: orbital period 0.2408467 Earth years
+# Venus: orbital period 0.61519726 Earth years
+# Earth: orbital period 1.0 Earth years, 365.25 Earth days, or 31557600 seconds
+# ...
+# So if you were told someone were 1,000,000,000 seconds old, 
+# you should be able to say that they're 31.69 Earth-years old.
+# https://exercism.org/tracks/bash/exercises/space-age
+
+# Function to round decimals
+# Usage: round "$var_name" integer (integer is number of decimal places)
+# E.g.: round "$var_name" 3
+# https://askubuntu.com/questions/179898/how-to-round-decimals-using-bc-in-bash
+round() {
+    echo "$(printf %.$2f "$(echo "scale=$2;(((10^$2)*$1)+0.5)/(10^$2)" | bc)")"
+};
+
+regex='^[A-Z][a-z]+ [0-9]+$'
+if [[ ! "$*" =~ $regex ]]; then    # validate input
+    exit 1
+fi 
+
+declare -A planets    # associative array with amount of earth years per orbital period
+planets[Mercury]="0.2408467"
+planets[Venus]="0.61519726"
+planets[Earth]="1.0"
+planets[Mars]="1.8808158"
+planets[Jupiter]="11.862615"
+planets[Saturn]="29.447498"
+planets[Uranus]="84.016846"
+planets[Neptune]="164.79132"
+
+planet=$1
+seconds_old=$2
+seconds_per_earth_year=31557600
+
+if [[ ! ${planets["$planet"]} ]]; then    # verify if given planet is included in associative array
+    echo "not a planet"
+    exit 1
+fi
+
+planet_multiplier=${planets["$planet"]}    # get amount of earth years per orbital period for given planet
+age=$( echo "$seconds_old / $seconds_per_earth_year * ( 1 / $planet_multiplier )" | bc -l )
+age_rounded=$( round "$age" 2 )
+echo "$age_rounded"
