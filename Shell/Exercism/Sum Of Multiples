@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Given a number, find the sum of all the unique multiples of particular numbers up to but not including that number.
+# If we list all the natural numbers below 20 that are multiples of 3 or 5, we get 3, 5, 6, 9, 10, 12, 15, and 18.
+# The sum of these multiples is 78.
+# https://exercism.org/tracks/bash/exercises/sum-of-multiples
+
+max=$1
+shift    # remove 1st argument from list of arguments
+
+declare -a multiples    # create array
+
+get_multiples() {       # calculate multiples
+    number=$1                                       # we will calculate multiples of this number
+
+    num_iterations=$(( (max - 1) / number  ))       # calculate number of loop iterations needed
+
+    for (( i = 1; i <= num_iterations; i++ )); do    
+        temp=$(( i * number ))                      # calculate multiple
+        multiples+=("$temp")                        # add multiple to array
+    done
+}
+
+get_uniq_multiples() {  # remove duplicates from array
+    multiples=($(echo "${multiples[@]}" | tr ' ' '\n' | sort -n -u | tr '\n' ' ' ))
+}
+
+get_sum() {             # sum array items
+    sum=0
+    for item in "${multiples[@]}"; do
+        (( sum += item))
+    done
+    echo "$sum"
+}
+
+while [[ $# -gt 0 ]]; do         # while there are arguments left, calculate multiples
+    if [[ "$1" -ne 0 ]]; then    # prevent division by 0
+        get_multiples "$1"; 
+    fi
+    shift
+done
+
+get_uniq_multiples
+
+get_sum
