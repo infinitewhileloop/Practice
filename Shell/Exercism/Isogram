@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Determine if a word or phrase is an isogram.
+# An isogram (also known as a "nonpattern word") is a word or phrase without a repeating letter, 
+# however spaces and hyphens are allowed to appear multiple times.
+# https://exercism.org/tracks/bash/exercises/isogram
+
+input=$1
+lowercase=${input,,}                  # convert input to lowercase
+only_letters=${lowercase//[^a-z]/}    # remove any characters except letters
+
+declare -A alphabet    # create dictionary object a.k.a. associative array
+
+for letter in {a..z}; do     # brace expansion of all letters in alphabet
+    alphabet["$letter"]=0    # create dictionary key for each letter, with initial value of 0
+done
+
+for (( i = 0; i < ${#only_letters}; i++ )); do        # iterate over each letter of input
+    char=${only_letters:i:1}                          # extract one letter
+    alphabet["$char"]=$(( alphabet["$char"] + 1 ))    # update dictionary value for given letter
+done
+
+for val in "${alphabet[@]}"; do    # loop over all values in dictionary
+    if (( val > 1 )); then         # exit if any value is higher than 1
+        echo "false"
+        exit
+    fi
+done
+
+echo "true"
