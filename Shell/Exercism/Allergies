@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Given a person's allergy score, determine whether or not they're allergic to a given item, 
+# and their full list of allergies.
+# An allergy test produces a single numeric score which contains the information about all the allergies 
+# the person has (that they were tested for).
+# https://exercism.org/tracks/bash/exercises/allergies/solutions
+
+dec_to_bin() {    # function to convert decimal input to binary
+    echo "obase=2;$1" | bc
+}
+
+score=$1
+command=$2
+food_item=$3
+
+bin_score=$( dec_to_bin "$score" )    # convert decimal allergy score to binary
+
+if [[ "$bin_score" =~ 1$ ]]; then allergies+=('eggs'); fi    # if binary score ends on 1, push food item to allergies array
+if [[ "$bin_score" =~ 1.$ ]]; then allergies+=('peanuts'); fi
+if [[ "$bin_score" =~ 1..$ ]]; then allergies+=('shellfish'); fi
+if [[ "$bin_score" =~ 1...$ ]]; then allergies+=('strawberries'); fi
+if [[ "$bin_score" =~ 1....$ ]]; then allergies+=('tomatoes'); fi
+if [[ "$bin_score" =~ 1.....$ ]]; then allergies+=('chocolate'); fi
+if [[ "$bin_score" =~ 1......$ ]]; then allergies+=('pollen'); fi
+if [[ "$bin_score" =~ 1.......$ ]]; then allergies+=('cats'); fi
+
+if [[ "$command" == "list" ]]; then
+    echo "${allergies[@]}"    # display all items of allergy array
+    exit
+fi
+
+if [[ "$command" == "allergic_to" ]]; then
+
+    if [[ "${allergies[*]}" =~ ${food_item} ]]; then    # test if allergy array contains food item
+        echo "true"
+    else
+        echo "false"
+    fi
+
+    exit
+fi
