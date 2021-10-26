@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Determine if a number is perfect, abundant, or deficient based on their aliquot sum. 
+# The aliquot sum is defined as the sum of the factors of a number not including the number itself. 
+# For example, the aliquot sum of 15 is (1 + 3 + 5) = 9
+# Perfect: aliquot sum = number
+# Abundant: aliquot sum > number
+# Deficient: aliquot sum < number
+# https://exercism.org/tracks/bash/exercises/perfect-numbers
+# https://courses.lumenlearning.com/prealgebra/chapter/finding-all-the-factors-of-number/
+
+input=$1
+
+validate_input() {
+    if [[ ! "$input" =~ ^[0-9]+$ || "$input" -lt 1 ]]; then    # exit if input is not positive integer
+        echo "Classification is only possible for natural numbers."
+        exit 1
+    fi
+}
+
+declare -a factors    # create array
+get_factors() {
+
+    divisor=1
+
+    while true; do
+        quotient=$(( input / divisor ))
+
+        if (( quotient < divisor )); then      # break from while loop if quotient is smaller than divisor
+            break
+        fi
+
+        if (( input % divisor == 0 )); then    # if quotient is whole number, divisor and quotient are factors
+            factors+=("$divisor")
+            factors+=("$quotient")
+        fi
+
+        (( divisor += 1 ))                     # add 1 to divisor
+    done
+}
+
+modify_factors() {
+    factors=($(echo "${factors[@]}" | tr ' ' '\n' | sort -u -n | tr '\n' ' '))    # sort factors (numerically) and remove duplicates
+    unset factors[-1] # remove last factor (i.e. input number itself)
+}
+
+aliquot_sum=0
+sum_factors() {
+    for factor in "${factors[@]}"; do    # loop over each array item and sum it
+        (( aliquot_sum += factor ))
+    done
+}
+
+display_result() {
+    if [[ "$aliquot_sum" -eq "$input" ]]; then
+        echo "perfect"
+    elif [[ "$aliquot_sum" -gt "$input" ]]; then
+        echo "abundant"
+    elif [[ "$aliquot_sum" -lt "$input" ]]; then
+        echo "deficient"
+    fi
+}
+
+validate_input
+get_factors
+modify_factors
+sum_factors
+display_result
