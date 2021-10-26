@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# The North American Numbering Plan (NANP) is a telephone numbering system used 
+# by many countries in North America like the United States, Canada or Bermuda. 
+# All NANP-countries share the same international country code: 1.
+# Clean up user-entered phone numbers so that they can be sent SMS messages.
+# https://exercism.org/tracks/bash/exercises/phone-number
+
+input=$1
+
+only_digits=$( echo "$input" | tr -d -c '[:digit:]')    # removing punctuation
+wo_country_code=${only_digits:(-10):10}    # remove country code if present
+
+pattern='^1?[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$'
+
+if [[ "$only_digits" =~ $pattern ]]; then    # test if it matches regex pattern
+    echo "$wo_country_code"
+    exit 0
+else 
+    echo "Invalid number.  [1]NXX-NXX-XXXX N=2-9, X=0-9"
+    exit 1
+fi
