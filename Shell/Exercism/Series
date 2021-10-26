@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Given a string of digits, output all the contiguous substrings of length n in that string 
+# in the order that they appear.
+# For example, the string "49142" has the following 3-digit series:
+# "491"
+# "914"
+# "142"
+# https://exercism.org/tracks/bash/exercises/series
+
+digits=$1
+digits_length="${#digits}"
+slice_length=$2
+
+# Validate input
+if [[ "$digits_length" -eq 0 ]]; then
+    echo "series cannot be empty"
+    exit 1
+fi
+if [[ "$slice_length" -gt "$digits_length" ]]; then
+    echo "slice length cannot be greater than series length"
+    exit 1
+fi
+if [[ "$slice_length" -eq 0 ]]; then
+    echo "slice length cannot be zero"
+    exit 1
+fi
+if [[ "$slice_length" -lt 0 ]]; then
+    echo "slice length cannot be negative"
+    exit 1
+fi
+
+# Calculate number of slices possible
+num_slices=$(( digits_length + 1 - slice_length))
+
+# Divide the string in substrings, moving one digit to the right each iteration
+for (( i = 0; i < num_slices; i ++ )); do
+    slice=${digits:i:slice_length}
+    if (( i != num_slices - 1 )); then
+        echo -n "$slice "    # -n flag to print without trailing newline, instead whitespace is printed
+    else
+        echo -n "$slice"     # don't print whitespace at the end if it's the last slice
+    fi
+done
