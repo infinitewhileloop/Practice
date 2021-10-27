@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Given a natural radicand, return its square root.
+# Note that the term "radicand" refers to the number for which the root is to be determined. 
+# That is, it is the number under the root symbol.
+# Check out the Wikipedia pages on square root and methods of computing square roots.
+# Recall also that natural numbers are positive real whole numbers (i.e. 1, 2, 3 and up).
+# https://exercism.org/tracks/bash/exercises/queen-attack
+
+white_position=$2    # this is zero indexed (0-7)
+white_row=${white_position%,*}
+white_col=${white_position#*,}
+black_position=$4
+black_row=${black_position%,*}
+black_col=${black_position#*,}
+
+
+# Validate if input is valid position on chess board
+if (( white_row < 0 || black_row < 0 )); then
+    echo "row not positive"
+    exit 1
+fi
+if (( white_col < 0 || black_col < 0 )); then
+    echo "column not positive"
+    exit 1
+fi
+if (( white_row > 7 || black_row > 7 )); then
+    echo "row not on board"
+    exit 1
+fi
+if (( white_col > 7 || black_col > 7 )); then
+    echo "column not on board"
+    exit 1
+fi
+if (( white_row == black_row && white_col == black_col )); then
+    echo "same position"
+    exit 1
+fi
+
+diagonal_tlbr_white=$(( white_row - white_col ))    # top left to bottom right diagonal score
+diagonal_tlbr_black=$(( black_row - black_col ))
+
+diagonal_trbl_white=$(( white_row + white_col ))    # top right to bottom left diagonal score
+diagonal_trbl_black=$(( black_row + black_col ))
+
+# Verify if two queens can attack each other
+if (( white_row == black_row || 
+      white_col == black_col ||
+      diagonal_tlbr_white == diagonal_tlbr_black ||
+      diagonal_trbl_white == diagonal_trbl_black )); then
+    echo "true"
+else
+    echo "false"
+fi
