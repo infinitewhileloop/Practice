@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Output the lyrics to 'The Twelve Days of Christmas'.
+# https://exercism.org/tracks/bash/exercises/twelve-days/
+
+beginning_number=$1
+ending_number=$2
+
+# Validate input
+if (( beginning_number < 1 || 
+   beginning_number > 12 || 
+   ending_number < 1 ||
+   ending_number > 12 ||
+   ending_number < beginning_number
+)); then
+    echo "invalid"
+    exit 1
+fi
+
+normal_sentences=( # 11
+    'Item Zero'
+    'that lay in the house that Jack built.'
+    'that ate the malt'
+    'that killed the rat'
+    'that worried the cat'
+    'that tossed the dog'
+    'that milked the cow with the crumpled horn'
+    'that kissed the maiden all forlorn'
+    'that married the man all tattered and torn'
+    'that woke the priest all shaven and shorn'
+    'that kept the rooster that crowed in the morn'
+    'that belonged to the farmer sowing his corn'
+)
+
+beginning_sentences=( # 12
+    'Item Zero'
+    'This is the house that Jack built.'
+    'This is the malt'
+    'This is the rat'
+    'This is the cat'
+    'This is the dog'
+    'This is the cow with the crumpled horn'
+    'This is the maiden all forlorn'
+    'This is the man all tattered and torn'
+    'This is the priest all shaven and shorn'
+    'This is the rooster that crowed in the morn'
+    'This is the farmer sowing his corn'
+    'This is the horse and the hound and the horn'
+)
+
+# Function to create and output one single verse
+get_verse() {
+    num_sentences=$1    # number of sentences this verse should contain
+    for (( i = "$num_sentences"; i >= 1; i-- )); do
+        if (( i == "$num_sentences" )); then
+            echo "${beginning_sentences[i]}"    # first sentece of verse
+        else
+            echo "${normal_sentences[i]}"       # next sentences
+        fi
+    done
+}
+
+# Generate multiple verses
+for (( j = beginning_number; j <= ending_number; j++ )) {
+    get_verse "$j"    # invoke function to output one verse
+    if (( j != ending_number)); then    # create newline, except for last verse
+        echo ""    
+    fi
+}
