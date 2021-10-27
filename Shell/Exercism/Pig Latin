@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Implement a program that translates from English to Pig Latin.
+# Pig Latin is a made-up children's language that's intended to be confusing. 
+# It obeys a few simple rules (below), but when it's spoken quickly it's really
+# difficult for non-children (and non-native speakers) to understand.
+# Rule 1: If a word begins with a vowel sound, add an "ay" sound to the end of 
+# the word. Please note that "xr" and "yt" at the beginning of a word 
+# make vowel sounds (e.g. "xray" -> "xrayay", "yttria" -> "yttriaay").
+# Rule 2: If a word begins with a consonant sound, move it to the end of the word 
+# and then add an "ay" sound to the end of the word. Consonant sounds can be made up 
+# of multiple consonants, a.k.a. a consonant cluster (e.g. "chair" -> "airchay").
+# Rule 3: If a word starts with a consonant sound followed by "qu", move it to the end 
+# of the word, and then add an "ay" sound to the end of the word (e.g. "square" -> "aresquay").
+# Rule 4: If a word contains a "y" after a consonant cluster or as the second letter in a 
+# two letter word it makes a vowel sound (e.g. "rhythm" -> "ythmrhay", "my" -> "ymay").
+# https://exercism.org/tracks/bash/exercises/pig-latin/edit
+
+
+latinize_word() {    # function to translate one word
+
+    word=$1
+
+    regex1='^([aeiou]|xr|yt)'     # if word begins with vowel, xr or yt
+    regex2='^([^aeiou]+)(.*)$'    # capture groups of beginning consonants and rest of string
+    regex3='^([^aeiou]?qu)(.*)$'  # capture groups of [consonant]qu and rest of string
+    regex4='^([^aeiou]+)(y.*)$'   # capture groups of consonant clust and rest of string containing y
+
+
+    if [[ "$word" =~ $regex1 ]]; then
+        echo -n "${word}ay"
+
+    elif [[ "$word" =~ $regex3 ]]; then    
+        echo -n "${BASH_REMATCH[2]}${BASH_REMATCH[1]}ay"
+
+    elif [[ "$word" =~ $regex4 ]]; then
+        echo -n "${BASH_REMATCH[2]}${BASH_REMATCH[1]}ay"
+
+    elif [[ "$word" =~ $regex2 ]]; then    # execute rule 2 as last
+        echo -n "${BASH_REMATCH[2]}${BASH_REMATCH[1]}ay"
+
+    else
+        echo -n "$word"
+    fi
+}
+
+while [[ "$#" -ne 0 ]]; do      # loop over each argument
+    latinize_word "$1"          # translate one word
+    if [[ "$#" -ne 1 ]]; then   # add space after word if it isn't the last word
+        echo -n " "   
+    fi
+    shift
+done
+echo    # create newline
