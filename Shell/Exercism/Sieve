@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# The Sieve of Eratosthenes is a simple, ancient algorithm for finding all prime numbers 
+# up to any given limit. It does so by iteratively marking as composite (i.e. not prime) 
+# the multiples of each prime, starting with the multiples of 2. 
+# It does not use any division or remainder operation.
+# Create your range, starting at two and continuing up to and including the given limit. 
+# (i.e. [2, limit])
+# The algorithm consists of repeating the following over and over:
+# take the next available unmarked number in your list (it is prime)
+# mark all the multiples of that number (they are not prime)
+# Repeat until you have processed each number in your range.
+# When the algorithm terminates, all the numbers in the list that have not been marked are prime.
+# https://exercism.org/tracks/bash/exercises/sieve
+
+limit=$1
+
+declare -a numbers_status   # array for status of numbers (p = prime, n = non-prime, x = unknown)
+declare -a prime_numbers    # array for known prime numbers
+
+for (( i = 2; i <= limit; i++ )); do    # push the (unknown) status for each item to array
+    numbers_status[i]="x"               # array not zero indexed, starts with 2
+done
+
+for (( k = 2; k <= limit; k++ )); do              # determine for each number in array if it's prime
+
+    if [[ ${numbers_status[k]} == "n" ]]; then    # skip if it has been already established as non-prime
+        continue
+
+    elif [[ ${numbers_status[k]} == "x" ]]; then  # if its status is still unknown, it's prime
+        numbers_status[k]="p"
+        multiple=$(( k + k ))
+        while (( multiple <= limit )); do         # mark its multiples as non-prime
+            numbers_status[multiple]="n"
+            (( multiple += k ))
+        done
+    fi
+done
+
+for index in "${!numbers_status[@]}"; do    # add prime numbers to array
+    if [[ ${numbers_status[index]} == "p" ]]; then
+        prime_numbers+=("$index")
+    fi
+done
+
+echo "${prime_numbers[@]}"    # output all prime numbers, space-separated
