@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Given a DNA strand, return its RNA complement (per RNA transcription).
+# Given a DNA strand, its transcribed RNA strand is formed by replacing each nucleotide 
+# with its complement:
+# G -> C
+# C -> G
+# T -> A
+# A -> U
+# https://exercism.org/tracks/bash/exercises/rna-transcription/
+
+dna=$1
+
+regex='^[GCTA]*$'    # validate input
+if [[ ! "$dna" =~ $regex ]]; then
+    echo "Invalid nucleotide detected."
+    exit 1
+fi
+
+echo "$dna" | tr 'GCTA' 'CGAU'    # map each char of 1st set to corresponding char of 2nd set
