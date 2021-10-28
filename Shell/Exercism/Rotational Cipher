@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# Create an implementation of the rotational cipher, also sometimes called the Caesar cipher.
+# The Caesar cipher is a simple shift cipher that relies on transposing all the letters 
+# in the alphabet using an integer key between 0 and 26. 
+# The letter is shifted for as many values as the value of the key.
+# The general notation for rotational ciphers is ROT + <key>. 
+# The most commonly used rotational cipher is ROT13.
+# https://exercism.org/tracks/bash/exercises/rotational-cipher
+
+input_str=$1
+shift_key=$2
+
+alphabet_regex='^[[:lower:][:upper:]]$'    # test if character is part of alphabet (i.e. lowercase or uppercase letter)
+
+declare -a alphabet_arr # add all lowercase letters *twice* to array (a, b ... y, z, a, b ... z)
+for j in {a..z}; do
+    alphabet_arr+=("$j")
+done
+for j in {a..z}; do
+    alphabet_arr+=("$j")
+done
+
+is_uppercase() {    # returns 1 if input letter is uppercase, else returns 0
+    
+    letter=$1
+    regex='^[[:upper:]]$'
+    
+    if [[ "$letter" =~ $regex ]]; then
+        echo "1"
+    else
+        echo "0"
+    fi
+}
+
+get_letter_index() {    # returns index of letter (a = 0, b = 1 etc.)
+    
+    local letter=$1
+
+    for i in "${!alphabet_arr[@]}"; do    # search in alphabet array until letter is found
+        if [[ "${alphabet_arr[$i]}" = "${letter}" ]]; then
+            echo "${i}";    # output index
+            break           # make sure only the first occurence of the letter in array is found
+        fi
+    done
+}
+
+transpose_letter() {    # transposes one single letter to another letter
+
+    local input_letter=$1
+
+    uppercase_status=$( is_uppercase "$input_letter" )    # remember if input letter was uppercase
+
+    input_letter=${input_letter,}    # convert letter to lowercase
+
+    index=$( get_letter_index "$input_letter" )    # get index of letter in array
+
+    new_index=$(( index + shift_key ))    # add shift key (e.g. key 13 shifts the letter 13 values)
+
+    transposed_letter=${alphabet_arr[new_index]}    # lookup new index in (double) alphabet array
+
+    if (( uppercase_status == 1 )); then    # if input was uppercase
+        echo "${transposed_letter^}"        # convert output to uppercase
+    else
+        echo "$transposed_letter"           # else output in lowercase
+    fi
+}
+
+for (( i = 0; i < ${#input_str}; i++ )); do    # loop over string character by character
+
+    char=${input_str:i:1}                      # extract one character
+
+    if [[ "$char" =~ $alphabet_regex ]]; then  # test if character is part of English alphabet
+        new_char=$( transpose_letter "$char" ) # if char is part of alphabet, transpose it
+        output_str="$output_str$new_char"            
+
+    else
+        output_str="$output_str$char"          # if char isn't part of alphabet, keep it as it is
+    fi
+done
+
+echo "$output_str"
