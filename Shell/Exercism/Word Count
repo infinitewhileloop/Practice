@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Given a phrase, count the occurrences of each word in that phrase.
+# https://exercism.org/tracks/bash/exercises/word-count
+
+# Modify input
+input=$1
+lowercase=${input,,}    # convert input to lowercase
+no_special_whitespace=${lowercase//\\n/ }    # replace \n by a space
+no_punctuation=${no_special_whitespace//[^a-z0-9\']/ }    # replace all chars except letters, digit and apostrophes by a space
+rm_unneeded_apostrophes1=${no_punctuation// \'/ }    # replace apostrophes preceded by a space
+rm_unneeded_apostrophes2=${rm_unneeded_apostrophes1//\' / }    # remove apostrophes followed by a space
+single_spaces=$(echo "$rm_unneeded_apostrophes2" | tr -s ' ')    # remove repeated spaces (s flag = '--squeeze-repeats')
+
+# Convert sentence to array, one word for each word
+words_arr=($single_spaces)
+
+# Strip words in array from apostrophes, except if they are part of the word (e.g. keep "it's", but edit "'this")
+for (( i = 0; i < ${#words_arr[@]}; i++ )); do
+
+    word=${words_arr[i]}
+    first_char=${word:0:1}
+    last_char=${word:(-1)}
+
+    if [[ "$first_char" == "'" ]]; then
+        new_val=${word#\'}
+        words_arr[i]="$new_val"
+    fi
+
+    if [[ "$last_char" == "'" ]]; then
+        new_val=${word%\'}
+        words_arr[i]="$new_val"
+    fi
+done
+
+# Count each occurrence of a word
+declare -A counter                      # object to count words
+for word in "${words_arr[@]}"; do       # loop over array
+
+    if [[ ${counter[$word]} ]]; then    # if word is present in object, increase its value by 1
+        curr_val=${counter[$word]}
+        counter[$word]=$(( ++curr_val ))
+
+    else                                # if word is not yet present in object, set its value to 1
+        counter[$word]=1
+    fi
+done
+
+# Output the count
+for word in "${!counter[@]}"; do        # loop over each key in object
+    echo "$word: ${counter[$word]}"
+done
