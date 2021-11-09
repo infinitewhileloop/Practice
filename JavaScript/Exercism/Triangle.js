@@ -9,7 +9,7 @@ class Triangle {
 
     get isValidTriangle() {
         return this.sides.every(side => side > 0)  // check if length of all sides is greater than 0
-            && ((this.sides[0] + this.sides[1]) >= this.sides[2])  // check if sum of lenghts of any 2 sides is greater than/equal to lenght 3rd side
+            && ((this.sides[0] + this.sides[1]) >= this.sides[2])  // check if sum of lenghts of any 2 sides is greater than/equal to length 3rd side
             && ((this.sides[1] + this.sides[2]) >= this.sides[0])
             && ((this.sides[0] + this.sides[2]) >= this.sides[1]);
     }
