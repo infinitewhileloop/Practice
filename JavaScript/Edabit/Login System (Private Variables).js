@@ -20,6 +20,7 @@ class DeathStar {
             return 'User added!';
         } 
     }
+
     login (user, password) {
         if (! this.#users.hasOwnProperty(user)) {  // non existing user
             this.#loginStatus = false;
@@ -36,6 +37,7 @@ class DeathStar {
             return `Invalid login!`;
         }
     }
+
     logout() {
         this.#loginStatus = false;
     }
@@ -44,6 +46,7 @@ class DeathStar {
         if (this.#loginStatus) return true;
         else return 'Not logged in!';
     }
+    
     get userList() {
         if (this.#loginStatus) {
             const arr = Object.values(this.#users);
