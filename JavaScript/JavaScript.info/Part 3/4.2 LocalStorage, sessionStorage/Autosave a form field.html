@@ -1,0 +1,16 @@
+// https://javascript.info/localstorage#autosave-a-form-field
+
+<textarea id="user-input" cols="30" rows="10"></textarea><br>
+<button onclick="localStorage.removeItem('previous-input'); document.getElementById('user-input').value = ''">Clear</button>
+
+<script>
+    const textarea = document.getElementById('user-input');
+
+    if (localStorage.getItem('previous-input')) {
+        textarea.value = localStorage.getItem('previous-input');
+    }
+
+    textarea.addEventListener('input', () => {
+        localStorage.setItem('previous-input', textarea.value);
+    });
+</script>
