@@ -1,0 +1,76 @@
+<!-- https://javascript.info/focus-blur#edit-td-on-click -->
+<style>
+    textarea {
+        width: 145px;
+        height: 60px;
+        border: none;
+        margin: 0;
+    }
+</style>
+
+<script>
+    let inEditingMode = false;
+    let origTd;
+    const table = document.querySelector('#bagua-table');
+
+    table.addEventListener('click', ev => {
+
+        if (inEditingMode) return;  // don't register other clicks when already in editing mode
+
+        let clickedTd = ev.path.find(x => x.tagName === 'TD');  // if element inside td is clicked, find parent td
+        if (!clickedTd) return;  // if no td is found (when table header is clicked)
+
+        origTd = clickedTd;
+        inEditingMode = true;
+        addButtons();
+        addTextArea();
+    });
+
+    function addButtons() {
+
+        // ok button
+        let ok = document.createElement('button');
+        ok.innerText = 'OK';
+        ok.onclick = okButton;
+
+        // cancel button
+        let cancel = document.createElement('button');
+        cancel.innerText = 'CANCEL';
+        cancel.onclick = cancelButton;
+
+        // container div to hold buttons
+        let div = document.createElement('div');
+        div.id = 'buttons-container';
+        div.append(ok, cancel);
+        document.body.append(div);
+    }
+
+    function cancelButton() {
+
+        document.getElementById('buttons-container').remove();  // remove buttons
+        inEditingMode = false;
+        textAreaTd.replaceWith(origTd);  // replace textarea td by original td
+    }
+
+    function addTextArea() {
+
+        let textArea = document.createElement('textarea');
+        textArea.value = origTd.innerHTML;
+
+        let textAreaTd = document.createElement('td');
+        textAreaTd.id = 'textAreaTd';
+
+        textAreaTd.append(textArea);  // add textarea to new td
+        origTd.replaceWith(textAreaTd);  // replace original td with new td holding textarea
+
+        document.querySelector('textarea').focus();
+    }
+
+    function okButton() {
+
+        origTd.innerHTML = document.querySelector('textarea').value;  // copy data entered in textarea to original td
+        textAreaTd.replaceWith(origTd);  // replace textarea td with original td
+        document.getElementById('buttons-container').remove();  // remove buttons
+        inEditingMode = false;
+    }
+</script>
