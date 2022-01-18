@@ -1,0 +1,48 @@
+<style>
+    #myDiv {
+        border: 1px solid black;
+        width: 400px;
+        height: 200px;
+    }
+
+    #myTextArea {
+        outline: none !important;
+        border: 3px solid blue;
+        width: 400px;
+        height: 200px;
+    }
+</style>
+
+<p id="para">Click the div to edit. Enter or blur saves the result.</p>
+<div id="myDiv" tabindex="-1">Text</div>
+<textarea id="myTextArea" hidden></textarea>
+
+<script>
+    function divFocus() {
+        myDiv.setAttribute('hidden', '');
+        myTextArea.removeAttribute('hidden');
+        myTextArea.value = myDiv.innerHTML;
+        myTextArea.focus();
+    }
+
+    function textAreaBlur() {
+        myTextArea.setAttribute('hidden', '');
+        myDiv.removeAttribute('hidden');
+        myDiv.innerHTML = myTextArea.value;
+
+    }
+
+    myDiv.addEventListener('focus', () => {
+        divFocus();
+    });
+
+    myTextArea.addEventListener('blur', () => {
+        textAreaBlur();
+    });
+
+    myTextArea.addEventListener('keydown', ev => {
+        if (ev.key === 'Enter') {
+            textAreaBlur();
+        }
+    });
+</script>
