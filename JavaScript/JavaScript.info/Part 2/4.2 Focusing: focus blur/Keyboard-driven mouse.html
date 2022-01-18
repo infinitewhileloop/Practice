@@ -1,0 +1,53 @@
+<!-- https://javascript.info/focus-blur#keyboard-driven-mouse -->
+
+<style>
+    #mouse {
+        display: inline-block;
+        cursor: pointer;
+        margin: 0;
+        position: absolute;
+    }
+
+    #mouse:focus {
+        outline: 1px dashed black;
+    }
+</style>
+</head>
+
+<body>
+    <p>Click on the mouse and move it with arrow keys.</p>
+
+    <pre id="mouse" tabindex="0">
+ _   _
+(q\_/p)
+ /. .\
+=\_t_/=   __
+ /   \   (
+((   ))   )
+/\) (/\  /
+\  Y  /-'
+ nn^nn
+</pre>
+
+<script>
+    let mouseInFocus = false;
+
+    // register if mouse is in focus
+    mouse.onfocus = () => mouseInFocus = true;
+    mouse.onblur = () => mouseInFocus = false;
+
+    document.addEventListener('keydown', ev => {
+
+        if (!mouseInFocus) return;  // only move mouse if mouse is in focus
+
+        // get original coordinates
+        let oldX = mouse.getBoundingClientRect().x;
+        let oldY = mouse.getBoundingClientRect().y;
+
+        // edit coordinates
+        if (ev.code === 'ArrowUp') mouse.style.top = `${oldY - 80}px`;
+        if (ev.code === 'ArrowDown') mouse.style.top = `${oldY + 80}px`;
+        if (ev.code === 'ArrowLeft') mouse.style.left = `${oldX - 80}px`;
+        if (ev.code === 'ArrowRight') mouse.style.left = `${oldX + 80}px`;
+    });
+</script>
