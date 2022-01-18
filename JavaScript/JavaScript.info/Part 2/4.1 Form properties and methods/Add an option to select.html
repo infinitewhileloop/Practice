@@ -1,0 +1,20 @@
+<select id="genres">
+    <option value="rock">Rock</option>
+    <option value="blues" selected>Blues</option>
+</select>
+
+<script>
+    // 1
+    let index = genres.selectedIndex;
+    console.log(`Value of selected option: ${genres.value}, text of selection option: ${genres.options[index].text}`);
+
+    // 2
+    let newOption = new Option('Classic', 'classic');
+    let newOptionIndex = genres.options.length;
+    genres.append(newOption);
+
+    // 3
+    let newOptionElem = genres.options[newOptionIndex];
+    genres.options[index].removeAttribute('selected');
+    newOptionElem.setAttribute('selected', '');
+</script>
