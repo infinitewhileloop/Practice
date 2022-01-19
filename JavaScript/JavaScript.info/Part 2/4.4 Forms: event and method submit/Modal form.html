@@ -1,0 +1,41 @@
+<!-- https://javascript.info/forms-submit#modal-form -->
+
+<h1>Click the button below</h1>
+<button id="clickButton">Click to show the form</button>
+
+<script>
+    clickButton.onclick = function () {
+        showPrompt("Enter something<br>...smart :)", function (value) {
+            alert(value);
+        });
+    };
+
+    function showPrompt(html, callback) {
+
+        const promptFormContainer = document.getElementById('prompt-form-container');
+        promptFormContainer.removeAttribute('hidden');
+
+        const promptMessage = document.getElementById('prompt-message');
+        promptMessage.innerHTML = html;
+
+        const form = document.getElementById('prompt-form');
+        form.text.focus();
+
+        form.onsubmit = ev => {  // ok button clicked or enter pressed
+            ev.preventDefault();
+            submitForm(true);
+        };
+        form.cancel.onclick = () => submitForm(false);  // cancel button clicked
+
+        function submitForm(isOk) {
+            callback(`You entered: ${isOk ? form.text.value : null}`);
+            promptFormContainer.setAttribute('hidden', '');
+            form.text.value = '';
+        }
+
+        form.text.tabIndex = 1;
+        const okButton = document.querySelector('#prompt-form input[type="submit"]');
+        okButton.tabIndex = 2;
+        form.cancel.tabIndex = 3;
+    }
+</script>
