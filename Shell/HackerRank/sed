@@ -1,0 +1,7 @@
+sed -E 's/\bthe\b/this/' /dev/stdin
+
+sed -E 's/\bthy\b/your/Ig' /dev/stdin
+
+sed 's/thy/{\0}/Ig' /dev/stdin
+
+sed -E 's/([0-9]{4}) ([0-9]{4}) ([0-9]{4}) ([0-9]{4})/\4 \3 \2 \1/' /dev/stdin
