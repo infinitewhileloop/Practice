@@ -1,0 +1,1 @@
+bc --mathlib | xargs printf "%.3f\n"
