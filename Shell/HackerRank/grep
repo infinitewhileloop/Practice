@@ -1,0 +1,7 @@
+grep -Ei '\b(the|that|then|those)\b'
+
+grep '\<the\>'
+
+grep -wi 'the'
+
+grep -iwv 'that'
