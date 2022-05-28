@@ -36,7 +36,7 @@ f) echo '1,2,3,4,5'| awk -F',' -v OFS=',' '{print $1, $2, $NF}'
 g) awk -v FIELDWIDTHS='3 2:2 4 3:8' -v OFS=, '{gsub(/  /, "NA")}; {print $1, $2, $4}' fw.txt
 h) printf 'restore\ncat one\ncricket' | awk -F '' -v OFS='' '{print $3, $5}'
 
-5) Record separators
+6) Record separators
 a) awk -v FS='\\W+' -v OFS='\n' '{$1=$1} 1' jumbled.txt | awk '/an|at|in|it/'
 b) awk -v ORS=',' '1' addr.txt | sed 's/,$/\n/'
 c) awk -F, -v OFS=, 'NR==1{$5="GP"}; NR>1{$5=($2*2+$3+$4)/4} 1' scores.csv
@@ -50,17 +50,17 @@ h) seq 15 | awk 'NR%5==2{print}; NR%5==4{print}
 i) /
 
 
-5) In-place file editing
+7) In-place file editing
 a) awk -i inplace -v inplace::suffix='.orig' 'sub(/2018/, "2020") 1' copyright.txt 
 b) awk -i inplace '2<=FNR && FNR<=3' nums1.txt nums2.txt
 
 
-6) Using shell variables
+8) Using shell variables
 a) awk -v r="\\\<$s\\\>" '$0 ~ r' sample.txt
 b) /
 
 
-7) Control structures
+9) Control structures
 a) awk '/^-/ {sub(/^-/, ""); print; next} {sub(/^/, "-"); print}' nums.txt
 b) awk '{print gensub(/([^0-9. -]+)/, "\"\\1\"", "g")}' table.txt | awk -v OFS=, '{$1=$1} 1'
 c) awk '{print gensub(/\S*(\S)/, "\\1", "g")}' secrets.txt | awk '{gsub(/\s+/, "")} 1'
@@ -68,7 +68,7 @@ d) awk '!/are/ {print} /are/ {print; exit}' sample.txt
    awk '!/are/ {print} /are/ {exit}' sample.txt
 e) /
 
-8) Built-in functions
+10) Built-in functions
 a) awk -v FS=, 'BEGIN{PROCINFO["sorted_in"] = "@ind_num_desc"} NR==1{print} NR>1{a[$3]=$0} END{for(k in a) print a[k]}' scores.csv 
 b) awk '{printf "%.4f\n", sqrt($1)}' nums3.txt
    awk '{printf "%.4e\n", sqrt($1)}' nums3.txt
@@ -81,11 +81,11 @@ h) awk '/^ / {system($0); next} !/^ / 1' files.txt
 i) awk -v FIELDWIDTHS='5 5 4 8' '$4=sprintf("%.2e", $4){print}' fw.txt
 j) awk '$0 ~ /e/ && $0 !~ /u/; $0 ~ /u/ && $0 !~ /e/' addr.txt 
 
-8) Multiple file input
+11) Multiple file input
 a) awk 'BEGINFILE{print ">"FILENAME"<"} FNR<=2{print $NF} ENDFILE{print "----------"}' table.txt FS=, scores.csv FIELDWIDTHS='14 *' fw.txt
 b) awk 'BEGINFILE{m=0}; $3 ~ /at|fun/{m=1}; ENDFILE{if(m) print FILENAME}' sample.txt secrets.txt addr.txt table.txt
 
-9) Processing multiple records
+12) Processing multiple records
 a) awk 'p1 ~ /you/ && p2 ~ /^$/ && /do/; 1 {p1=p2; p2=$0}' sample.txt
 b) awk -v IGNORECASE=1 -v n=2 '/do/{c++} c==n{print $0; c++} /not/{d++} d==n{print $0; d++}' sample.txt
 c) awk -v n=1 'NR>n && /are|bit/{print a[NR-n]; s=n+1} {a[NR]=$0} s && s--' sample.txt
@@ -93,16 +93,16 @@ d) awk '/top/{f=1; buf=$0; next} f{buf=buf ORS $0} /bottom/{if(f) print buf; f=0
 e) awk -v n=2 '/###/{c++} c==n{print; if(/###/ && s++) exit}' concat.txt
 f) awk -v IGNORECASE=1 '/```/{c++} {if(c%2==0) gsub(/ruby/, "Ruby"); print $0}' ruby.md >out.md
 
-10) Two file processing
+13) Two file processing
 a) awk -v FPAT='[a-zA-Z]+' 'NR==FNR{a[$3]; next} $2 in a' match_words.txt jumbled.txt sample.txt
 b) awk 'NR==FNR{d[NR]=$0; next} {printf "%s\n%s\n---\n", d[FNR], $0}' secrets.txt table.txt
 c) /
 
-11) Dealing with duplicates 
+14) Dealing with duplicates 
 a) awk -v IGNORECASE=1 '!a[tolower($0)]++' lines.txt
 b) awk '!a[$1,$2]++ && !a[$2,$1]++' twos.txt
 c) awk 'NR==FNR{a[$1,$2]++; a[$2,$1]++; next} a[$1,$2]>1 || a[$2,$1]>1{print > "dupl.txt"} a[$1,$2]==1 && a[$2,$1]==1{print > "uniq.txt"}' twos.txt twos.txt
 
-12) awk scripts
+15) awk scripts
 a) /
 b) /
