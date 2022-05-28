@@ -49,16 +49,13 @@ g) awk 'NR!=2' table.txt
 h) seq 15 | awk 'NR%5==2{print}; NR%5==4{print}
 i) /
 
-
 7) In-place file editing
 a) awk -i inplace -v inplace::suffix='.orig' 'sub(/2018/, "2020") 1' copyright.txt 
 b) awk -i inplace '2<=FNR && FNR<=3' nums1.txt nums2.txt
 
-
 8) Using shell variables
 a) awk -v r="\\\<$s\\\>" '$0 ~ r' sample.txt
 b) /
-
 
 9) Control structures
 a) awk '/^-/ {sub(/^-/, ""); print; next} {sub(/^/, "-"); print}' nums.txt
