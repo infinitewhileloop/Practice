@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Analyses an Apace-format access_log file
+# Analyses an Apache-format access_log file
 
 log_file="$1"
 
