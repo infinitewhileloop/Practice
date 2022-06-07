@@ -1,0 +1,4 @@
+1) awk 'NF<4{print "Not all scores are available for " $1}'
+2) awk '{if($2>=50 && $3>=50 && $4>=50) print $1 " : Pass"; else print $1 " : Fail"}'
+3) awk '{avg=(($2+$3+$4)/3); $5=":"; if(avg>=80) $6="A"; else if(avg>=60) $6="B"; else if(avg>=50) $6="C"; else $6="FAIL"} 1'
+4) awk 'NR%2==0 {print s ";" $0} {s=$0} END{if(NR%2==1)print s ";"}'
