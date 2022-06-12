@@ -1,0 +1,47 @@
+3) Frequently used options
+a) grep 'ablaze' dracula.txt
+b) grep -w 'abandon' dracula.txt
+c) grep -i 'professor' dracula.txt | grep -e 'quip' -e 'sleep'
+d) grep -m3 'Count' dracula.txt 
+e) grep -v 'Journal' dracula.txt | grep -v 'Letter' | grep -m6 'Harker'
+f) grep -n 'Zooelogical Gardens' dracula.txt
+g) grep -owi 'the' dracula.txt | wc -l
+h) cat -e dracula.txt | head
+
+4) BRE/ERE Regular Expressions
+a) echo '((2 +3)*5)=25 and (4.3/2*()' | grep -o '([^()]*)'
+b) printf '%b' "$lines" | grep -E '^den|ly$'
+c) echo 'hi42bye nice1423 bad42 cool_42a 42fake' | grep -oE '\w+42\w+'
+d) printf 'car\nscar\ncare\npot\nscare\n' | grep -E -e 'car\B' -e '\Bcar'
+e) grep -Ewc 're(mov|st|ceiv|pli|fus|tir)ed' dracula.txt
+f) echo "$words" | grep -oEw -e '\<s\w*e\w*t\w*' -e '\<s\w*t\w*e\w*'
+g) echo 'oreo not a pip roar took 22' | grep -oEw -e '(\w)\w*\1' -e '\w'
+h) printf '4*5]\n(9-2)*[5]\n[5]*3\nr*[5\n' | grep -F '*[5]'
+i) {,1} {0,} {1,}
+j) False
+k) False
+l) printf '%b' "$lines" | grep -E '^hand(s|y|le)?$'
+
+5) Context matching
+a) grep -B1 'raise' palindrome.py
+b) printf "%b" "$lines" | grep -vE -A0 --group-separator=$'\n' '^$'
+
+6) Recursive search
+a) grep -rlE 'xargs|python3'
+b) grep -rl --exclude-dir='.git' --exclude-dir='exercises' 'grep'
+c) grep -rl --exclude-dir='.*' --include='*.txt' 'baz'
+d) cat *.md | grep -Ewo 'grep|sed|awk' | wc -l
+e) grep -rl --exclude='*.txt' --exclude='*.sh' 'Hello'
+f) grep -rlwZ 'awk' | xargs -0 grep -lwZ 'perl' | xargs -0 grep -Lw 'basename'
+
+7) Miscellaneous options
+a) printf 'hi there\0good day\n' | grep -z .
+b) /
+c) printf 'oh\n42' | grep -qz '^[0-9]' && echo 'Match' || echo 'Nope'
+
+8) Perl Compatible Regular Expressions
+a) printf "$pswds" | grep -iP '[a-z].*[a-z]' | grep -P '\d.*\d.*\d' | grep -P '[%#\*\$]' | grep -P '\S$'
+b) printf 'foo,abc\ncat,x,dog' | grep -oP '^[^,]*,\K.*(?=,)'
+c) grep -P 'qty((?!error| ).)*price' price.txt
+d) printf '2\nice\nwater\nNice\n42' | grep -zoP '(?s)(\w+).*\1\n'
+e) echo 'a pip at tea top earn row nice' | grep -oiP '\b[a-df-moq-z]\w*\b'
