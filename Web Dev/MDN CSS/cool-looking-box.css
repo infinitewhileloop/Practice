@@ -1,0 +1,26 @@
+/* https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/A_cool_looking_box */
+
+html {
+  font-family: sans-serif;
+}
+
+/* Your CSS below here */
+div {
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  font-size: 1.1rem; /* root font-size is 16px */
+  color: #f3e6e6;
+  text-shadow: 2px 2px 4px #000;
+  border: 1px solid #990e0e;
+  border-radius: 5px;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-color: #e72727;
+  box-shadow: 2px 2px 5px #000, 1px 1px 3px inset rgba(255, 255, 255, 0.8);
+}
