@@ -1,0 +1,40 @@
+<!-- https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Test_your_skills_backgrounds_and_borders -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Backgrounds and Borders: Task 1</title>
+    <style>
+      body {
+        background-color: #fff;
+        color: #333;
+        font: 1.2em / 1.5 Helvetica Neue, Helvetica, Arial, sans-serif;
+        padding: 1em;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      .box {
+        width: 300px;
+        padding: 0.5em;
+        border: 5px solid lightblue;
+        border-top-left-radius: 20px;
+        border-bottom-right-radius: 40px;
+      }
+      h2 {
+        text-align: center;
+        background-image: url('./star.png'), url('./star.png');
+        background-repeat: no-repeat, repeat-y;
+        background-position: left center, right center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="box">
+      <h2>Backgrounds &amp; Borders</h2>
+    </div>
+  </body>
+</html>
