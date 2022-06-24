@@ -1,0 +1,40 @@
+/* https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox_skills */
+
+/* 1 */
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 2 */
+
+ul {
+  display: flex;
+}
+
+li:first-of-type {
+  flex: 2;
+}
+li {
+  flex: 1;
+}
+
+/* 3 */
+
+.parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 4 */
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  flex: 60px;
+}
