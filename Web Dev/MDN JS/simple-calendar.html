@@ -1,0 +1,97 @@
+<!-- https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals#active_learning_a_simple_calendar -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 5px;
+        max-width: 500px;
+      }
+      .box {
+        width: 100px;
+        background-color: purple;
+        color: #fff;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="monthSelect">Select month:</label>
+    <select name="monthSelect" id="monthSelect">
+      <option value="0">January</option>
+      <option value="1">February</option>
+      <option value="2">March</option>
+      <option value="3">April</option>
+      <option value="4">May</option>
+      <option value="5">June</option>
+      <option value="6">July</option>
+      <option value="7">August</option>
+      <option value="8">September</option>
+      <option value="9">October</option>
+      <option value="10">November</option>
+      <option value="11">December</option>
+    </select>
+    <h1 id="monthHeader"></h1>
+    <div class="container"></div>
+    <script>
+      const log = console.log;
+
+      const selectEl = document.getElementById('monthSelect');
+      document.addEventListener('change', changeMonth);
+
+      function changeMonth() {
+        const months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
+        const monthIndex = Number(selectEl.value);
+        const monthName = months[monthIndex];
+
+        const monthHeaderEl = document.getElementById('monthHeader');
+        monthHeaderEl.textContent = monthName;
+
+        let numOfDays;
+        if (monthIndex === 1) {
+          numOfDays = 28;
+        } else if (
+          monthIndex === 3 ||
+          monthIndex === 5 ||
+          monthIndex === 8 ||
+          monthIndex === 10
+        ) {
+          numOfDays = 30;
+        } else {
+          numOfDays = 31;
+        }
+
+        const containerEl = document.querySelector('.container');
+        containerEl.innerHTML = '';
+        for (let i = 1; i <= numOfDays; i++) {
+          const box = document.createElement('div');
+          box.classList.add('box');
+          box.textContent = i;
+          containerEl.appendChild(box);
+        }
+      }
+
+      changeMonth();
+    </script>
+  </body>
+</html>
