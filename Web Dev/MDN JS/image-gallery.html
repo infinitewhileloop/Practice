@@ -1,0 +1,91 @@
+<!-- https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Image_gallery -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image gallery</title>
+
+    <style>
+
+      body {
+        width: 640px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .large-img-container {
+        height: 480px;
+        position: relative;
+      }
+
+      .small-img-container {
+        height: 96px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        cursor: pointer;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      button#lighten-darken {
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 65px;
+        border-radius: 0;
+        border: 1px solid #ccc;
+        background-color: rgba(120, 120, 120, 0.5);
+        cursor: pointer;
+        text-shadow: 1px 1px 2px #fff;
+        padding: 3px;
+      }
+
+      .dark-overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <h1>Image gallery example</h1>
+    <div class="large-img-container">
+      <div id="overlay"></div>
+      <img src="pic1.jpg" alt="" />
+      <button id="lighten-darken">Darken</button>
+    </div>
+    <div class="small-img-container">
+        <img src="pic1.jpg" alt="" />
+        <img src="pic2.jpg" alt="" />
+        <img src="pic3.jpg" alt="" />
+        <img src="pic4.jpg" alt="" />
+        <img src="pic5.jpg" alt="" />
+      </div>
+    </div>
+
+    <script>
+      const largeImg = document.querySelector('.large-img-container img')
+      const smallImgContainer = document.querySelector('.small-img-container')
+      const lightenDarkenBtn = document.querySelector('#lighten-darken')
+      const overlay = document.querySelector('#overlay')
+
+      smallImgContainer.addEventListener('click', ev => largeImg.src = ev.target.getAttribute('src'))
+      lightenDarkenBtn.addEventListener('click', ev => {
+        overlay.classList.toggle('dark-overlay')
+        ev.target.innerText === 'Darken' ? ev.target.innerText = 'Lighten' : ev.target.innerText = 'Darken';
+      })
+    </script>
+
+  </body>
+</html>
