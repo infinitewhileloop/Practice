@@ -17,14 +17,6 @@ const alice3 = document.querySelector('#alice3');
 
 // 1. Promise version of callback hell
 
-// const anim1 = alice1.animate(aliceTumbling, aliceTiming);
-// anim1.finished.then(() => {
-//   const anim2 = alice2.animate(aliceTumbling, aliceTiming);
-//   anim2.finished.then(() => {
-//     const anim3 = alice3.animate(aliceTumbling, aliceTiming);
-//   });
-// });
-
 // alice1.animate(aliceTumbling, aliceTiming).finished.then(() => {
 //   alice2.animate(aliceTumbling, aliceTiming).finished.then(() => {
 //     alice3.animate(aliceTumbling, aliceTiming);
