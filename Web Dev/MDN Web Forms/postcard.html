@@ -1,0 +1,118 @@
+<!-- https://developer.mozilla.org/en-US/docs/Learn/Forms/Styling_web_forms#a_specific_styling_example -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Postcard</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Swanky+and+Moo+Moo&display=swap');
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background-color: #222222;
+      }
+
+      body {
+        display: flex;
+        width: 699px;
+        height: 500px;
+        margin: 10px auto;
+        background-image: url('./background.jpg');
+        background-repeat: no-repeat;
+        font-family: 'Special Elite', cursive;
+      }
+
+      section {
+        flex: 1;
+        padding-left: 30px;
+      }
+
+      section:nth-of-type(1) {
+        padding-top: 30px;
+      }
+
+      section:nth-of-type(2) {
+        padding-top: 200px;
+      }
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        padding-bottom: 27px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0);
+        font-family: 'Swanky and Moo Moo', cursive;
+        font-size: 100%;
+      }
+
+      textarea {
+        margin-top: 10px;
+        height: 300px;
+      }
+
+      input:focus,
+      textarea:focus {
+        background-color: rgba(150, 150, 150, 0.2);
+      }
+
+      input[type='email'] {
+        width: 250px;
+      }
+
+      button {
+        padding: 5px;
+        border-radius: 5px;
+        border-color: #333333;
+        background-color: rgba(255, 255, 255, 1);
+        font-family: inherit;
+        transform: rotate(-2deg);
+      }
+
+      button:hover {
+        cursor: pointer;
+        background-color: #000;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <form action="" id="card">
+        <label for="message">Your message:</label>
+        <textarea name="message" id="message" cols="30" rows="10"></textarea>
+      </form>
+    </section>
+    <section>
+      <ul>
+        <li>
+          <label for="to">to: Mozilla</label>
+        </li>
+        <li>
+          <label for="from">from:</label>
+          <input type="email" name="from" id="from" form="card" />
+        </li>
+        <li>
+          <label for="reply">reply:</label>
+          <input type="email" name="reply" id="reply" form="card" />
+        </li>
+        <button type="submit" form="card">Send your message >>></button>
+      </ul>
+    </section>
+  </body>
+</html>
